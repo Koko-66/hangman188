@@ -1,16 +1,36 @@
 import random
 
-
+# Set up
 word_list = ["apple", "redcurrant", "blueberry", "raspberry", "strawberry"]
 print(word_list)
 
-word = random.choice(word_list)
+def draw_word_for_game(word_list):
+    return random.choice(word_list)
+    
+    
+def validate_if_single_letter(guess):
+    if len(guess) == 1 and guess.isalpha():
+            print(f"Your guess: '{guess}'")
+    else:
+        raise ValueError("You you need to provide a single letter.")
+        
 
-print(word)
+def get_guess_from_user():
+    """Ask user to select the item"""
+    while True:
+        guess = input("What letter are you thinking of? ")
+        try:
+            letter = validate_if_single_letter(guess)
+            return letter
+        except ValueError as error:
+            print(f"{error} Try again.\n")
+            continue
+    
+        
+def run():
+    word = draw_word_for_game(word_list)
+    guess = get_guess_from_user()
+    
 
-guess = input("What letter are you thinking of? ")
-
-if len(guess) == 1 and guess.isalpha():
-    print("Good guess!")
-else:
-    print("Oops! That is not a valid input.")
+if __name__ == "__main__":
+    run()
