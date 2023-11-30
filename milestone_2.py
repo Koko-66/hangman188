@@ -20,8 +20,8 @@ def get_guess_from_user():
     while True:
         guess = input("What letter are you thinking of? ")
         try:
-            letter = validate_if_single_letter(guess)
-            return letter
+            validate_if_single_letter(guess)
+            return guess
         except ValueError as error:
             print(f"{error} Try again.\n")
             continue
