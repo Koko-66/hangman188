@@ -51,27 +51,25 @@ class Hangman:
             print("-----")
  
     def check_guess(self, guess):
+        guess = guess.lower()
         
-        if guess.lower() in self.word:
+        if guess in self.word:
             print(f"\nGood guess! '{guess}' is in the word.")
-            for index, letter in enumerate(self.word):
-                if letter == guess:
-                    self.word_guessed[index] = guess              
+            self.word_guessed = [guess if letter == guess else guessed_letter for letter, guessed_letter in zip(self.word, self.word_guessed)]
             self.num_letters -= 1
-            
         else:
             print(f"\nSorry, '{guess}' is not in the word.")
             self.num_lives -= 1
             print(f"Lives left: {self.num_lives}")
             self.draw_gallows()
-
-        print(f"\n{' '.join(self.word_guessed)}")
+        if self.num_lives != 0:
+            print(f"\n{' '.join(self.word_guessed)}")
 
     def ask_for_input(self):
         """Ask user to select the item"""
         while True:
             guess = input("\nWhat letter are you thinking of? ")
-            if len(guess) != 1 and not guess.isalpha():
+            if len(guess) != 1 or not guess.isalpha():
                 print("\nInvalid letter. Please, enter a single alphabetical character.")
                 continue
             elif guess in self.list_of_guesses:
