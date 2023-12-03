@@ -2,26 +2,33 @@ import random
 
 
 class Hangman:
-
+    """A class to represent a Hangman game 
+    """
 
     def __init__(self, word_list, num_lives=5):
+        """Hangman class initaliser
+
+        Args:
+            word_list (list): a list of words available for the game
+            num_lives (int): number of player's initial lives. Defaults to 5.
+        """
 
         self.word_list = word_list
         self.num_lives = num_lives
 
         self.word = random.choice(word_list)
-        self.word_guessed = ["_" for letter in self.word]
+        self.word_guessed = ["_" for _ in self.word]
         self.num_letters = len(set(self.word))
         self.list_of_guesses = []
 
     def draw_gallows(self):
-        """_summary_
+        """Print part of gallows on each incorrect guess
         """
         gallows = [
             ["", "  __ ", " |  | ", " o  | ", "/|\ | ", "/ \ | ", "-----"],
             ["", "  __ ", " |  | ", "    | ", "    | ", "    | ", "-----"],
             ["", "  __ ", "    | ", "    | ", "    | ", "    | ", "-----"],
-            ["","    | ", "    | ", "    | ", "    | ", "-----"],
+            ["", "    | ", "    | ", "    | ", "    | ", "-----"],
             ["", "", "", "", "    | ", "    | ", "-----"],
         ]
 
@@ -29,7 +36,12 @@ class Hangman:
             print(gallows[self.num_lives][i])
 
     def check_guess(self, guess):
+        """Determine if user's guess is correct. If yes, update word_guessed,
+        if not decrease lives and pring gallows.
 
+        Args:
+            guess (str): user's guess (letter)
+        """
         guess = guess.lower()
 
         if guess in self.word:
@@ -46,7 +58,9 @@ class Hangman:
             print(f"\n{' '.join(self.word_guessed)}")
 
     def ask_for_input(self):
-        """Ask user to select the item"""
+        """Iteratively ask for user input.
+        Validates for length, if is a letter, if tried before and checks whether in the word.
+        """
         while True:
             guess = input("\nWhat letter are you thinking of? ")
             if len(guess) != 1 or not guess.isalpha():
@@ -61,23 +75,31 @@ class Hangman:
                 break
 
 
-word_list = ["apple", "redcurrant", "blueberry", "raspberry", "strawberry"]
+def game_intro(initial_lives, guessed_word):
+    """Print introduction to the game.
 
-
-def game_intro(lives, guess_word):
+    Args:
+        lives (int): the initial number of lives player has 
+        guess_word (list): guessed_word from the game object, list of "_" for
+                           each letter in the word.
+    """
     print("\nWelcome to ** HANGMAN **")
     print("\n__________________\n")
     print("Let's start!")
     print("\n__________________\n")
-    print(f"The word is a fruit and has {len(guess_word)} letters:")
-    print(f"\nWord: {' '.join(guess_word)}\n")
-    print(f"You have {lives} lives.\n")
+    print(f"The word is a fruit and has {len(guessed_word)} letters:")
+    print(f"\nWord: {' '.join(guessed_word)}\n")
+    print(f"You have {initial_lives} lives.\n")
+    
+
+word_list = ["apple", "redcurrant", "blueberry", "raspberry", "strawberry"]
 
 
-def play_game(word_list):
+def play_game():
+    """Main function running the game.
+    """
     num_lives = 5
     game = Hangman(word_list, num_lives)
-
     game_intro(num_lives, game.word_guessed)
 
     while True:
@@ -92,4 +114,4 @@ def play_game(word_list):
 
 
 if __name__ == "__main__":
-    play_game(word_list)
+    play_game()
